@@ -93,7 +93,7 @@ func LoadImageArchive(n nodes.Node, image io.Reader) error {
 func getSnapshotter(n nodes.Node) (string, error) {
 	out, err := exec.Output(n.Command("containerd", "config", "dump"))
 	if err != nil {
-		return "", errors.Wrap(err, "failed to detect containerd snapshotter")
+		return "", errors.Wrap(err, "getSnapshotter: failed to detect containerd snapshotter")
 	}
 	return parseSnapshotter(string(out))
 }
@@ -101,7 +101,7 @@ func getSnapshotter(n nodes.Node) (string, error) {
 func parseSnapshotter(config string) (string, error) {
 	parsed, err := toml.Load(config)
 	if err != nil {
-		return "", errors.Wrap(err, "failed to detect containerd snapshotter")
+		return "", errors.Wrap(err, "parseSnapshotter: failed to detect containerd snapshotter")
 	}
 	configVersion, ok := parsed.Get("version").(int64)
 	if !ok {
